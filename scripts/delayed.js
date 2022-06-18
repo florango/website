@@ -5,8 +5,20 @@ import { sampleRUM } from './scripts.js';
 sampleRUM('cwv');
 
 // add more delayed functionality here
+function loadScript(url, callback, type) {
+  const $head = document.querySelector('head');
+  const $script = document.createElement('script');
+  $script.src = url;
+  if (type) {
+    $script.setAttribute('type', type);
+  }
+  $script.onload = callback;
+  return $script;
+}
 
-
-/* google tag manager */
-// eslint-disable-next-line
-(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-59SSM79');
+loadScript('https://www.googletagmanager.com/gtag/js?id=UA-167069650-1', () => {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-167069650-1');
+}, 'text/javascript');
