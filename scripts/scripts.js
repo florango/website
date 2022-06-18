@@ -617,6 +617,13 @@ function buildAutoBlocks(main) {
   }
 }
 
+function decoratePhoneLinks(elem) {
+  elem.querySelectorAll('a').forEach((a) => {
+    const offset = a.href.indexOf('sms:')
+    if (offset >= 0) a.href = a.href.substr(offset);
+  });
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
@@ -628,6 +635,7 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+  decoratePhoneLinks(main);
 }
 
 /**
