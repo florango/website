@@ -604,6 +604,16 @@ function loadFooter(footer) {
   loadBlock(footerBlock);
 }
 
+function buildImageBlocks(main) {
+  main.querySelectorAll(':scope > div > p > picture').forEach((picture) => {
+    const p = picture.closest('p');
+    if (p.textContent.trim() === '') {
+      console.log('building block')
+      p.replaceWith(buildBlock('image', picture.outerHTML ));
+    }
+  });
+}
+
 /**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
@@ -611,6 +621,7 @@ function loadFooter(footer) {
 function buildAutoBlocks(main) {
   try {
     buildHeroBlock(main);
+    buildImageBlocks(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);

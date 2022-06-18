@@ -11,17 +11,26 @@
  */
 
  :root {
+  --light-green: #b4c7b6;
+  --dark-green: #879988;
+  --dark-blue: #383845;
+  --light-pink: #f2b19b;
+  --dark-pink: #a37165;
+  --light-tan: #ede6d2;
+
+
   /* colors */
-  --link-color: #035fe6;
-  --link-hover-color: #136ff6;
-  --background-color: #fff;
+  --link-color: var(--light-pink);
+  --link-hover-color: var(--dark-pink);;
+  --background-color: var(--light-tan);
   --overlay-background-color: #879988;
-  --highlight-background-color: #ccc;
-  --text-color: #000;
+  --highlight-background-color: var(--light-green);
+  --text-color: var(--dark-blue);
+
 
   /* fonts */
-  --body-font-family: 'helvetica neue', helvetica, ubuntu, roboto, noto, sans-serif;
-  --heading-font-family: var(--body-font-family);
+  --body-font-family: 'Josefin Sans', 'Josefin Sans-fallback';
+  --heading-font-family: 'Hammersmith One', 'Hammersmith One-fallback';
   --fixed-font-family: 'Roboto Mono', menlo, consolas, 'Liberation Mono', monospace;
 
   /* body sizes */
@@ -42,6 +51,22 @@
 
 }
 
+@font-face {
+  font-family: "Josefin Sans-fallback";
+  size-adjust: 101.78%;
+  ascent-override: 73%;
+  src: local("Arial");
+}
+
+@font-face {
+  font-family: "Hammersmith One-fallback";
+  size-adjust: 107.53%;
+  ascent-override: 94%;
+  src: local("Arial");
+}
+
+
+
 body {
   font-size: var(--body-font-size-m);
   margin: 0;
@@ -50,6 +75,7 @@ body {
   color: var(--text-color);
   background-color: var(--background-color);
   display: none;
+  text-align: center;
 }
 
 body.appear {
@@ -67,6 +93,9 @@ h4, h5, h6 {
   margin-top: 1em;
   margin-bottom: .5em;
   scroll-margin: calc(var(--nav-height) + 1em);
+  font-family: var(--heading-font-family);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
 h1 { font-size: var(--heading-font-size-xxl) }
@@ -117,13 +146,14 @@ a.button:any-link, button {
   font-style: normal; 
   font-weight: 600;
   cursor: pointer;
-  color: var(--background-color);
+  color: var(--text-color);
   background-color: var(--link-color);
   margin: 16px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   border-radius: 30px;
+  text-transform: uppercase;
 }
 
 a.button:hover, a.button:focus, button:hover, button:focus  {
@@ -137,9 +167,9 @@ button:disabled, button:disabled:hover {
 }
 
 a.button.secondary, button.secondary {
-  background-color: unset;
+  background-color: var(--text-color);
   border: 2px solid currentcolor;
-  color: var(--text-color)
+  color: var(--background-color);
 } 
 
 
@@ -162,7 +192,7 @@ main input:hover {
 }
 
 main .section {
-  padding: 64px 16px;
+  padding: 0;
 }
 
 main pre {
@@ -204,16 +234,13 @@ main img {
 }
 
 @media (min-width: 600px) {
-  main .section {
-    padding: 64px 32px;
-  }  
 }
 
 @media (min-width: 900px) {
   :root {
-    --heading-font-size-xxl: 60px;
-    --heading-font-size-xl: 48px;
-    --heading-font-size-l: 36px;
+    --heading-font-size-xxl: 40px;
+    --heading-font-size-xl: 30px;
+    --heading-font-size-l: 32px;
     --heading-font-size-m: 30px;
     --heading-font-size-s: 24px;
     --heading-font-size-xs: 22px;  
@@ -242,4 +269,8 @@ main .section.highlight {
 .icon svg {
   height: 1em;
   width: 1em;
+}
+
+.default-content-wrapper {
+  padding: 32px;
 }

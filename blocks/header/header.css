@@ -13,6 +13,7 @@ header nav {
   height: var(--nav-height);
   box-sizing: border-box;
   font-family: var(--body-font-family);
+  color: var(--light-tan);
 }
 
 header nav a:any-link {
@@ -40,6 +41,7 @@ header nav .nav-brand p {
 
 header nav .nav-brand img {
   width: 128px;
+  height: auto;
 }
 
 /* hamburger */
@@ -135,6 +137,11 @@ header nav .nav-tools {
   grid-area: tools;
   flex: 0 0 auto;
   height: 22px;
+  display: flex;
+}
+
+header nav .nav-tools .icon {
+  padding: 0 8px;
 }
 
 header nav .nav-tools p {

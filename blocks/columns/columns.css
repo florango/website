@@ -3,20 +3,40 @@
     flex-direction: column;
 }
 
-.columns img {
+.columns > div > div {
+    padding: 32px;
+}
+
+.columns .columns-image {
+    position: relative;
+    display: block;
+    min-height: 400px;
+}
+
+.columns .columns-image picture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.columns .columns-image img {
+    height: 100%;
     width: 100%;
+    object-fit: cover;
 }
 
 @media (min-width: 900px) {
     .columns > div {
         display: flex;
-        align-items: center;
+        align-items: stretch;
         flex-direction: unset;
     }
 
     .columns > div > div {
         flex: 1;
-        margin-left: 32px;
     }
 
     .columns > div > div:first-of-type {
