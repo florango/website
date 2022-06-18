@@ -34,6 +34,7 @@
   --fixed-font-family: 'Roboto Mono', menlo, consolas, 'Liberation Mono', monospace;
 
   /* body sizes */
+  --body-font-size-l: 26px;
   --body-font-size-m: 22px;
   --body-font-size-s: 18px;
   --body-font-size-xs: 14px;
@@ -141,14 +142,13 @@ a.button:any-link, button {
   box-sizing: border-box;
   text-decoration: none;
   border: 2px solid transparent;
-  padding: 5px 30px;
+  padding: 9px 30px 5px;
   text-align: center;
   font-style: normal; 
   font-weight: 600;
   cursor: pointer;
   color: var(--text-color);
   background-color: var(--link-color);
-  margin: 16px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -170,6 +170,7 @@ a.button.secondary, button.secondary {
   background-color: var(--text-color);
   border: 2px solid currentcolor;
   color: var(--background-color);
+  font-size: var(--body-font-size-l);
 } 
 
 
@@ -247,7 +248,7 @@ main img {
   }
   
   .section > div {
-    max-width: 1200px;
+    max-width: 1500px;
     margin: auto;
   }
 }
