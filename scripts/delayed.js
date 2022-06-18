@@ -13,6 +13,7 @@ function loadScript(url, callback, type) {
     $script.setAttribute('type', type);
   }
   $script.onload = callback;
+  $head.append($script);
   return $script;
 }
 
