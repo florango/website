@@ -1,3 +1,3 @@
 export default async function decorate(block) {
-  return block;
+  block.querySelector('img').setAttribute('loading', 'eager');
 }
