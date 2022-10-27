@@ -51,8 +51,8 @@ export function sampleRUM(checkpoint, data = {}) {
             data.cwv[measurement.name] = measurement.value;
             sendPing();
           };
-            // When loading `web-vitals` using a classic script, all the public
-            // methods can be found on the `webVitals` global namespace.
+          // When loading `web-vitals` using a classic script, all the public
+          // methods can be found on the `webVitals` global namespace.
           window.webVitals.getCLS(storeCWV);
           window.webVitals.getFID(storeCWV);
           window.webVitals.getLCP(storeCWV);
@@ -452,14 +452,29 @@ export function normalizeHeadings(el, allowedHeadings) {
   });
 }
 
+// /**
+//  * Set template (page structure) and theme (page styles).
+//  */
+// function decorateTemplateAndTheme() {
+//   const template = getMetadata('template');
+//   if (template) document.body.classList.add(toClassName(template));
+//   const theme = getMetadata('theme');
+//   if (theme) document.body.classList.add(toClassName(theme));
+// }
+
 /**
  * Set template (page structure) and theme (page styles).
  */
 function decorateTemplateAndTheme() {
+  const addClasses = (elem, classes) => {
+    classes.split(',').forEach((v) => {
+      elem.classList.add(toClassName(v.trim()));
+    });
+  };
   const template = getMetadata('template');
-  if (template) document.body.classList.add(toClassName(template));
+  if (template) addClasses(document.body, template);
   const theme = getMetadata('theme');
-  if (theme) document.body.classList.add(toClassName(theme));
+  if (theme) addClasses(document.body, theme);
 }
 
 /**
@@ -479,12 +494,12 @@ export function decorateButtons(element) {
           up.classList.add('button-container');
         }
         if (up.childNodes.length === 1 && up.tagName === 'STRONG'
-            && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
+          && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
           a.className = 'button primary';
           twoup.classList.add('button-container');
         }
         if (up.childNodes.length === 1 && up.tagName === 'EM'
-            && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
+          && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
           a.className = 'button secondary';
           twoup.classList.add('button-container');
         }
@@ -609,7 +624,7 @@ function buildImageBlocks(main) {
     const p = picture.closest('p');
     if (p.textContent.trim() === '') {
       console.log('building block')
-      p.replaceWith(buildBlock('image', picture.outerHTML ));
+      p.replaceWith(buildBlock('image', picture.outerHTML));
     }
   });
 }
@@ -647,6 +662,15 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   decoratePhoneLinks(main);
+  decorateTextPage(main);
+}
+
+async function decorateTextPage($main) {
+  if (window.location.pathname.includes('orderbytext')) {
+    $main.className = 'order-by-text-wizard';
+    const $sections = $main.querySelectorAll('.section');
+    console.log('sections', $sections);
+  }
 }
 
 /**
@@ -687,4 +711,79 @@ function loadDelayed() {
   // eslint-disable-next-line import/no-cycle
   window.setTimeout(() => import('./delayed.js'), 3000);
   // load anything that can be postponed to the latest here
+}
+
+
+/**
+ * Template Shizzle
+ * @param {*} $node 
+ * @param {*} $contentModel 
+ * @param {*} modifierFunc 
+ */
+async function processNode($node, $contentModel, modifierFunc) {
+  if ($node.firstChild)
+    visitNode($node.firstChild, $contentModel);
+  if ($node.nextSibling)
+    visitNode($node.nextSibling, $contentModel);
+}
+
+function visitNode($node, $contentModel, modifierFunc) {
+  let $any, $repeat, q, name, $content;
+  if (($node?.nodeType != Node.TEXT_NODE && $node?.nodeType != Node.COMMENT_NODE)) {
+    const $repeater = $node.getAttribute('multi'); //TODO: Rename to cardinatlity?
+    q = $node.getAttribute('q');
+    name = $node.getAttribute('name');
+    if (q) {
+      if ($repeater) {
+        $repeat = $node;
+        const repeatedHTML = $repeat.innerHTML;
+        let $contents = $contentModel.querySelectorAll(q);
+        $repeat.replaceChildren();
+        $contents.forEach($subContentModel => {
+          const $childTemplate = createTag('div', { class: 'subtemplate-wrapper' });
+          //TODO: Need to check the subtemplate is empty; if so, just fill with what's in the subContentModel.
+          $childTemplate.innerHTML = repeatedHTML;
+          processNode($childTemplate, $subContentModel);
+          $repeat.append($childTemplate);
+        })
+      } else {
+        $any = $node;
+        if (q) {
+          $content = $contentModel.querySelector(q);
+          $any.innerHTML = ($content) ? $content?.outerHTML : ' ';
+          //$any.replaceWith($any.firstChild); // Should we do this?
+        }
+        processNode($node, $contentModel);
+      }
+    } else {
+      processNode($node, $contentModel);
+    }
+  } else {
+    processNode($node, $contentModel);
+  }
+  //TODO: Need to remove attrs 
+}
+
+async function fetchTemplate(blockName, templateFileName) {
+  const resp = await fetch(`/blocks/${blockName}/${templateFileName}`);
+  const markup = await resp?.text();
+  const $template = createTag('div', { class: 'template-wrapper' });
+  $template.innerHTML = markup;
+  return $template;
+}
+
+export async function applyTemplate($block, blockName, templateFileName, modifierFunc) {
+  const $template = await fetchTemplate(blockName, templateFileName);
+  visitNode($template, $block, modifierFunc);
+  $block.innerHTML = $template.innerHTML;
+}
+
+export function createTag(name, attrs) {
+  const el = document.createElement(name);
+  if (typeof attrs === 'object') {
+    for (const [key, value] of Object.entries(attrs)) {
+      el.setAttribute(key, value);
+    }
+  }
+  return el;
 }
