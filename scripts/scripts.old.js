@@ -16,22 +16,7 @@
  * @param {Object} data additional data for RUM sample
  */
 
- export function sampleRUM(checkpoint, data = {}) {
-  sampleRUM.defer = sampleRUM.defer || [];
-  const defer = (fnname) => {
-    sampleRUM[fnname] = sampleRUM[fnname]
-      || ((...args) => sampleRUM.defer.push({ fnname, args }));
-  };
-  sampleRUM.drain = sampleRUM.drain
-    || ((dfnname, fn) => {
-      sampleRUM[dfnname] = fn;
-      sampleRUM.defer
-        .filter(({ fnname }) => dfnname === fnname)
-        .forEach(({ fnname, args }) => sampleRUM[fnname](...args));
-    });
-  sampleRUM.on = (chkpnt, fn) => { sampleRUM.cases[chkpnt] = fn; };
-  defer('observe');
-  defer('cwv');
+export function sampleRUM(checkpoint, data = {}) {
   try {
     window.hlx = window.hlx || {};
     if (!window.hlx.rum) {
@@ -43,34 +28,39 @@
       const random = Math.random();
       const isSelected = (random * weight < 1);
       // eslint-disable-next-line object-curly-newline
-      window.hlx.rum = { weight, id, random, isSelected, sampleRUM };
+      window.hlx.rum = { weight, id, random, isSelected };
     }
-    const { weight, id } = window.hlx.rum;
-    if (window.hlx && window.hlx.rum && window.hlx.rum.isSelected) {
-      const sendPing = (pdata = data) => {
+    const { random, weight, id } = window.hlx.rum;
+    if (random && (random * weight < 1)) {
+      const sendPing = () => {
         // eslint-disable-next-line object-curly-newline, max-len, no-use-before-define
         const body = JSON.stringify({ weight, id, referer: window.location.href, generation: RUM_GENERATION, checkpoint, ...data });
         const url = `https://rum.hlx.page/.rum/${weight}`;
         // eslint-disable-next-line no-unused-expressions
         navigator.sendBeacon(url, body);
-        // eslint-disable-next-line no-console
-        console.debug(`ping:${checkpoint}`, pdata);
       };
-      sampleRUM.cases = sampleRUM.cases || {
-        cwv: () => sampleRUM.cwv(data) || true,
-        lazy: () => {
-          // use classic script to avoid CORS issues
-          const script = document.createElement('script');
-          script.src = 'https://rum.hlx.page/.rum/@adobe/helix-rum-enhancer@^1/src/index.js';
-          document.head.appendChild(script);
-          sendPing(data);
-          return true;
-        },
-      };
-      sendPing(data);
-      if (sampleRUM.cases[checkpoint]) { sampleRUM.cases[checkpoint](); }
+      sendPing();
+      // special case CWV
+      if (checkpoint === 'cwv') {
+        // use classic script to avoid CORS issues
+        const script = document.createElement('script');
+        script.src = 'https://rum.hlx.page/.rum/web-vitals/dist/web-vitals.iife.js';
+        script.onload = () => {
+          const storeCWV = (measurement) => {
+            data.cwv = {};
+            data.cwv[measurement.name] = measurement.value;
+            sendPing();
+          };
+          // When loading `web-vitals` using a classic script, all the public
+          // methods can be found on the `webVitals` global namespace.
+          window.webVitals.getCLS(storeCWV);
+          window.webVitals.getFID(storeCWV);
+          window.webVitals.getLCP(storeCWV);
+        };
+        document.head.appendChild(script);
+      }
     }
-  } catch (error) {
+  } catch (e) {
     // something went wrong
   }
 }
@@ -184,7 +174,7 @@ export async function fetchPlaceholders(prefix = 'default') {
             window.placeholders[prefix] = placeholders;
             resolve();
           });
-      } catch (error) {
+      } catch (e) {
         // error loading placeholders
         window.placeholders[prefix] = {};
         reject();
@@ -233,13 +223,6 @@ export function readBlockConfig(block) {
           } else {
             value = as.map((a) => a.href);
           }
-        } else if (col.querySelector('img')) {
-          const imgs = [...col.querySelectorAll('img')];
-          if (imgs.length === 1) {
-            value = imgs[0].src;
-          } else {
-            value = imgs.map((img) => img.src);
-          }
         } else if (col.querySelector('p')) {
           const ps = [...col.querySelectorAll('p')];
           if (ps.length === 1) {
@@ -283,7 +266,7 @@ export function decorateSections($main) {
       const keys = Object.keys(meta);
       keys.forEach((key) => {
         if (key === 'style') section.classList.add(toClassName(meta.style));
-        else section.dataset[toCamelCase(key)] = meta[key];
+        else section.dataset[key] = meta[key];
       });
       sectionMeta.remove();
     }
@@ -371,17 +354,17 @@ export async function loadBlock(block, eager = false) {
             if (mod.default) {
               await mod.default(block, blockName, document, eager);
             }
-          } catch (error) {
+          } catch (err) {
             // eslint-disable-next-line no-console
-            console.log(`failed to load module for ${blockName}`, error);
+            console.log(`failed to load module for ${blockName}`, err);
           }
           resolve();
         })();
       });
       await Promise.all([cssLoaded, decorationComplete]);
-    } catch (error) {
+    } catch (err) {
       // eslint-disable-next-line no-console
-      console.log(`failed to load block ${blockName}`, error);
+      console.log(`failed to load block ${blockName}`, err);
     }
     block.setAttribute('data-block-status', 'loaded');
   }
@@ -469,14 +452,29 @@ export function normalizeHeadings(el, allowedHeadings) {
   });
 }
 
+// /**
+//  * Set template (page structure) and theme (page styles).
+//  */
+// function decorateTemplateAndTheme() {
+//   const template = getMetadata('template');
+//   if (template) document.body.classList.add(toClassName(template));
+//   const theme = getMetadata('theme');
+//   if (theme) document.body.classList.add(toClassName(theme));
+// }
+
 /**
  * Set template (page structure) and theme (page styles).
  */
 function decorateTemplateAndTheme() {
+  const addClasses = (elem, classes) => {
+    classes.split(',').forEach((v) => {
+      elem.classList.add(toClassName(v.trim()));
+    });
+  };
   const template = getMetadata('template');
-  if (template) document.body.classList.add(toClassName(template));
+  if (template) addClasses(document.body, template);
   const theme = getMetadata('theme');
-  if (theme) document.body.classList.add(toClassName(theme));
+  if (theme) addClasses(document.body, theme);
 }
 
 /**
@@ -571,9 +569,9 @@ export function initHlx() {
   if (scriptEl) {
     try {
       [window.hlx.codeBasePath] = new URL(scriptEl.src).pathname.split('/scripts/scripts.js');
-    } catch (error) {
+    } catch (e) {
       // eslint-disable-next-line no-console
-      console.log(error);
+      console.log(e);
     }
   }
 }
@@ -591,16 +589,8 @@ const RUM_GENERATION = 'project-1'; // add your RUM generation information here
 const ICON_ROOT = '/icons';
 
 sampleRUM('top');
-
 window.addEventListener('load', () => sampleRUM('load'));
-
-window.addEventListener('unhandledrejection', (event) => {
-  sampleRUM('error', { source: event.reason.sourceURL, target: event.reason.line });
-});
-
-window.addEventListener('error', (event) => {
-  sampleRUM('error', { source: event.filename, target: event.lineno });
-});
+document.addEventListener('click', () => sampleRUM('click'));
 
 loadPage(document);
 
@@ -629,38 +619,50 @@ function loadFooter(footer) {
   loadBlock(footerBlock);
 }
 
+function buildImageBlocks(main) {
+  main.querySelectorAll(':scope > div > p > picture').forEach((picture) => {
+    const p = picture.closest('p');
+    if (p.textContent.trim() === '') {
+      console.log('building block')
+      p.replaceWith(buildBlock('image', picture.outerHTML));
+    }
+  });
+}
+
 /**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
-async function buildAutoBlocks(main) {
+function buildAutoBlocks(main) {
   try {
     buildHeroBlock(main);
-
-    const template = toClassName(getMetadata('template'));
-    const templates = ['orderByText'];
-    if (templates.includes(template)) {
-      const mod = await import(`./${template}.js`);
-      if (mod.default) {
-        await mod.default(main);
-      }
-    }
+    buildImageBlocks(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
   }
 }
 
+function decoratePhoneLinks(elem) {
+  elem.querySelectorAll('a').forEach((a) => {
+    const offset = a.href.indexOf('sms:')
+    if (offset >= 0) a.href = a.href.substr(offset);
+  });
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
  */
-export async function decorateMain(main) {
+export function decorateMain(main) {
   // hopefully forward compatible button decoration
   decorateButtons(main);
   decorateIcons(main);
+  buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+  decoratePhoneLinks(main);
+  decorateTextPage(main);
 }
 
 /**
@@ -670,8 +672,7 @@ async function loadEager(doc) {
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
   if (main) {
-    await buildAutoBlocks(main);
-    await decorateMain(main);
+    decorateMain(main);
     await waitForLCP();
   }
 }
@@ -692,9 +693,6 @@ async function loadLazy(doc) {
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.svg`);
-  sampleRUM('lazy');
-  sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
-  sampleRUM.observe(main.querySelectorAll('picture > img'));
 }
 
 /**
@@ -707,22 +705,85 @@ function loadDelayed() {
   // load anything that can be postponed to the latest here
 }
 
-export async function lookupPages(config) {
-  /* load index */
-  if (!window.pageIndex) {
-    const resp = await fetch('/query-index.json');
-    const json = await resp.json();
-    const lookup = {};
-    json.data.forEach((row) => {
-      lookup[row.path] = row;
-    });
-    window.pageIndex = { data: json.data, lookup };
-  }
 
-  /* simple array lookup */
-  if (Array.isArray(config)) {
-    const pathnames = config;
-    return (pathnames.map((path) => window.pageIndex.lookup[path]).filter((e) => e));
+/**
+ * Template Shizzle
+ * @param {*} $node
+ * @param {*} $contentModel
+ * @param {*} modifierFunc
+ */
+async function processNode($node, $contentModel, modifierFunc) {
+  if ($node.firstChild)
+    visitNode($node.firstChild, $contentModel);
+  if ($node.nextSibling)
+    visitNode($node.nextSibling, $contentModel);
+}
+
+function visitNode($node, $contentModel, modifierFunc) {
+  let $any, $repeat, q, name, $content;
+  if (($node?.nodeType != Node.TEXT_NODE && $node?.nodeType != Node.COMMENT_NODE)) {
+    const $repeater = $node.getAttribute('multi'); //TODO: Rename to cardinatlity?
+    q = $node.getAttribute('q');
+    name = $node.getAttribute('name');
+    if (q) {
+      if ($repeater) {
+        $repeat = $node;
+        const repeatedHTML = $repeat.innerHTML;
+        let $contents = $contentModel.querySelectorAll(q);
+        $repeat.replaceChildren();
+        $contents.forEach($subContentModel => {
+          const $childTemplate = createTag('div', { class: 'subtemplate-wrapper' });
+          //TODO: Need to check the subtemplate is empty; if so, just fill with what's in the subContentModel.
+          $childTemplate.innerHTML = repeatedHTML;
+          processNode($childTemplate, $subContentModel);
+          $repeat.append($childTemplate);
+        })
+      } else {
+        $any = $node;
+        if (q) {
+          $content = $contentModel.querySelector(q);
+          $any.innerHTML = ($content) ? $content?.outerHTML : ' ';
+          //$any.replaceWith($any.firstChild); // Should we do this?
+        }
+        processNode($node, $contentModel);
+      }
+    } else {
+      processNode($node, $contentModel);
+    }
+  } else {
+    processNode($node, $contentModel);
   }
-  return [];
+  //TODO: Need to remove attrs
+}
+
+async function fetchTemplate(blockName, templateFileName) {
+  const resp = await fetch(`/blocks/${blockName}/${templateFileName}`);
+  const markup = await resp?.text();
+  const $template = createTag('div', { class: 'template-wrapper' });
+  $template.innerHTML = markup;
+  return $template;
+}
+
+export async function applyTemplate($block, blockName, templateFileName, modifierFunc) {
+  const $template = await fetchTemplate(blockName, templateFileName);
+  visitNode($template, $block, modifierFunc);
+  $block.innerHTML = $template.innerHTML;
+}
+
+export function createTag(name, attrs) {
+  const el = document.createElement(name);
+  if (typeof attrs === 'object') {
+    for (const [key, value] of Object.entries(attrs)) {
+      el.setAttribute(key, value);
+    }
+  }
+  return el;
+}
+
+async function decorateTextPage($main) {
+  if (window.location.pathname.includes('orderbytext')) {
+    $main.className = 'order-by-text-wizard';
+    const $sections = $main.querySelectorAll('.section');
+    console.log('sections', $sections);
+  }
 }
