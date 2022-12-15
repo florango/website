@@ -1,3 +1,11 @@
+const isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+const isMac = (navigator.appVersion.indexOf('Mac') != -1);
+
+console.log(isMobile);
+console.log(isMac);
+
+
+//------ Reactivity
 /**
  * The delimiter that describes where expressions are located.
  */
@@ -673,3 +681,4 @@ export function r(data, state = {}) {
     });
     return proxy;
 }
+//------ /Reactivity
