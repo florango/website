@@ -89,18 +89,23 @@ h6 {
 h1 {
   font-size: var(--heading-font-size-xxl);
 }
+
 h2 {
   font-size: var(--heading-font-size-xl);
 }
+
 h3 {
   font-size: var(--heading-font-size-l);
 }
+
 h4 {
   font-size: var(--heading-font-size-m);
 }
+
 h5 {
   font-size: var(--heading-font-size-s);
 }
+
 h6 {
   font-size: var(--heading-font-size-xs);
 }
@@ -251,8 +256,7 @@ main img {
   height: auto;
 }
 
-@media (min-width: 600px) {
-}
+@media (min-width: 600px) {}
 
 @media (min-width: 900px) {
   :root {
@@ -264,7 +268,7 @@ main img {
     --heading-font-size-xs: 22px;
   }
 
-  .section > div {
+  .section>div {
     max-width: 1500px;
     margin: auto;
   }
@@ -293,15 +297,38 @@ main .section.highlight {
   padding: 32px;
 }
 
-.order-by-text-wizard {
-  //position: relative;
-  scroll-behavior: smooth;
-  overflow: scroll;
-  scroll-snap-type: y mandatory;
-  
-  .section {
-    padding-top: 190px;
-    scroll-snap-align: center;
-    height: 90vh;
+.orderbytext {
+
+   .order-by-text-wizard {
+    //position: relative;
+    scroll-behavior: smooth;
+    overflow: scroll;
+    scroll-snap-type: y mandatory;
+
+    .section {
+      padding-top: 190px;
+      scroll-snap-align: center;
+      height: 90vh;
+    }
+
+    textarea {
+      padding: 20px;
+      min-height: 200px;
+      width: 100%;
+    }
+    textarea:focus + label {
+      display: none;
+    }
+    textarea:valid + label {
+      display: none;
+    }
+    .label-in-textarea {
+      position: relative;
+    }
+    .label-in-textarea > label {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
   }
 }

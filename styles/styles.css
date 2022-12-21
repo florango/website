@@ -286,13 +286,32 @@ main .section.highlight {
   padding: 32px;
 }
 
-.order-by-text-wizard {
+.orderbytext .order-by-text-wizard {
   scroll-behavior: smooth;
   overflow: scroll;
   scroll-snap-type: y mandatory;
 }
-.order-by-text-wizard .section {
+.orderbytext .order-by-text-wizard .section {
   padding-top: 190px;
   scroll-snap-align: center;
   height: 90vh;
+}
+.orderbytext .order-by-text-wizard textarea {
+  padding: 20px;
+  min-height: 200px;
+  width: 100%;
+}
+.orderbytext .order-by-text-wizard textarea:focus + label {
+  display: none;
+}
+.orderbytext .order-by-text-wizard textarea:valid + label {
+  display: none;
+}
+.orderbytext .order-by-text-wizard .label-in-textarea {
+  position: relative;
+}
+.orderbytext .order-by-text-wizard .label-in-textarea > label {
+  position: absolute;
+  top: 20px;
+  left: 20px;
 }

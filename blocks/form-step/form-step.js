@@ -1,6 +1,10 @@
+import {
+  createForm
+} from '../../templates/orderbytext/orderbytext.js'
+
+
+
 export default function decorate(block) {
-  const $p = document.createElement('p');
-  $p.append('hsdjhsjsdhj');
-  block.append($p);
   console.log('form step', block);
+  createForm(block);
 }
