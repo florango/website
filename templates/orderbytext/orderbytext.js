@@ -28,7 +28,6 @@ export function createField(field) {
       const input = createInput(fieldName, fieldType);
       fieldDiv.append(input);
       fieldDiv.append(label);
-      fieldDiv.append(createTag('span'));
       registerField(fieldName, input);
       break;
     case 'textarea':
@@ -37,7 +36,6 @@ export function createField(field) {
       registerField(fieldName, textArea);
       fieldDiv.append(textArea);
       fieldDiv.append(label);
-      fieldDiv.append(createTag('span'));
       break;
   }
   field.replaceWith(fieldDiv);

@@ -199,7 +199,7 @@ main {
 main input {
   font-size: 1.25rem;
   width: 100%;
-  max-width: 50rem;
+  //max-width: 50rem;
   display: block;
   //margin-bottom: 1rem;
   padding: 0.75rem 0.6rem;
@@ -317,23 +317,25 @@ main .section.highlight {
       // Move up, colorize and shrink
       font-size: 0.75em;
       color: gray;
-      top: -2.25rem;
+      top: -2.5rem;
       transition: all 0.125s cubic-bezier(0.2, 0, 0.03, 1);
     }
 
     .styled-input {
-      float: left;
+      float: right;
       width: 33.3333%;
       margin: 2rem 0 1rem;
       position: relative;
       width: 100%;
+      display: flex;
+      justify-content: center;
 
       label {
         color: #999;
         padding: 1rem;
         position: absolute;
         top: 0;
-        left: 0;
+        left: 16px;
         transition: all 0.25s cubic-bezier(0.2, 0, 0.03, 1);
         pointer-events: none;
       }
@@ -346,39 +348,24 @@ main .section.highlight {
 
     input,
     textarea {
+      width: 90%;
       padding: 1rem 1rem;
       border: 0;
-      width: 100%;
       font-size: 1rem;
       background-color: white;
       margin-bottom: 0;
 
-      ~span {
-        // Border Effect
-        display: block;
-        width: 0;
-        height: 3px;
-        background: red;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        transition: all 0.125s cubic-bezier(0.2, 0, 0.03, 1);
-      }
 
       &:focus {
         // Trigger the effects
-        outline: 0;
+        outline: 2;
 
         ~label {
           // Move Label
           @extend %label-movement;
         }
 
-        ~span {
-          // Expand across
-          width: 100%;
-          transition: all 0.125s cubic-bezier(0.2, 0, 0.03, 1);
-        }
+
       }
 
       &:valid~label
@@ -392,8 +379,13 @@ main .section.highlight {
 
     textarea {
       // Mods needed for multiline inputs
-      width: 100%;
+      width: calc(90% - 2rem);
       min-height: 15em;
+      margin: 0;
+    }
+
+    input {
+
     }
   }
 }
