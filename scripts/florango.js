@@ -681,4 +681,7 @@ export function r(data, state = {}) {
     });
     return proxy;
 }
+export const html = t;
+export const reactive = r;
+export const watch = w;
 //------ /Reactivity

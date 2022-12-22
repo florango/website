@@ -1,45 +1,57 @@
 import { createTag } from '../../scripts/scripts.js';
-import {toClassName,} from '../../scripts/lib-franklin.js';
+import { toClassName, } from '../../scripts/lib-franklin.js';
 console.log('loading orderbytext template')
 
+const fields = {};
+
 export async function createForm(block) {
-  for (const field of block.children) {
-    createField(field);
+  for (const fieldData of block.children) {
+    const field = createField(fieldData);
   }
 }
 
-export async function createField(field) {
-  console.log(field.children)
+function createInput(fieldName, fieldType) {
+  //return createTag('input', { type: fieldType, name: fieldName, placeholder: fieldName })
+  return createTag('input', { type: fieldType, name: fieldName, required: true })
+}
+
+export function createField(field) {
   const fieldName = field.children[0].textContent;
   const fieldType = field.children[1].textContent;
-  const fieldDiv = createTag('div', { class: 'form-field' });
+  const fieldDiv = createTag('div', { class: 'form-field styled-input' });
+  let label = createTag('label', { for: fieldName });
+  label.textContent = fieldName;
   switch (fieldType) {
     case 'text':
-      fieldDiv.append(createTag('input', { type: 'text', name: fieldName, placeholder: fieldName }))
-      field.replaceWith(fieldDiv);
-      break;
     case 'email':
-      field.append(createTag('input', { type: 'email', name: fieldName, placeholder: fieldName }))
-      field.replaceWith(fieldDiv);
-      break;
-    case 'phone':
-      field.append(createTag('input', { type: 'tel', name: fieldName, placeholder: fieldName }))
-      field.replaceWith(fieldDiv);
+    case 'tel':
+      const input = createInput(fieldName, fieldType);
+      fieldDiv.append(input);
+      fieldDiv.append(label);
+      fieldDiv.append(createTag('span'));
+      registerField(fieldName, input);
       break;
     case 'textarea':
-      const fieldId = toClassName(fieldName);
-      let label = createTag('label', {for: fieldId});
-      label.textContent = fieldName;
-      fieldDiv.append(createTag('textarea', { id: fieldId, name: fieldId, required: true }));
+
+      const textArea = createTag('textarea', { id: fieldName, name: fieldName, required: true });
+      registerField(fieldName, textArea);
+      fieldDiv.append(textArea);
       fieldDiv.append(label);
-      fieldDiv.classList.add('label-in-textarea');
-      field.replaceWith(fieldDiv)
+      fieldDiv.append(createTag('span'));
       break;
   }
-  console.log(field);
+  field.replaceWith(fieldDiv);
+  field.name = fieldName;
   return field;
 }
 
-export async function registerField(field) {
-  console.log(`registering ${field}`);
+function registerField(fieldName, inputElement) {
+  console.log(`registering ${fieldName}`)
+  console.log(inputElement)
+  fields[fieldName] = '';
+  inputElement.addEventListener('change', () => updateField(fieldName, inputElement.value));
+}
+
+function updateField(fieldName, fieldValue) {
+  fields[fieldName] = fieldValue;
 }

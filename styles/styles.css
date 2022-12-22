@@ -194,7 +194,6 @@ main input {
   width: 100%;
   max-width: 50rem;
   display: block;
-  margin-bottom: 1rem;
   padding: 0.75rem 0.6rem;
   border-radius: 0.25rem;
   box-sizing: border-box;
@@ -296,22 +295,60 @@ main .section.highlight {
   scroll-snap-align: center;
   height: 90vh;
 }
-.orderbytext .order-by-text-wizard textarea {
-  padding: 20px;
-  min-height: 200px;
+.orderbytext .order-by-text-wizard input:valid ~ label,
+.orderbytext .order-by-text-wizard textarea:valid ~ label, .orderbytext .order-by-text-wizard input:focus ~ label,
+.orderbytext .order-by-text-wizard textarea:focus ~ label {
+  font-size: 0.75em;
+  color: gray;
+  top: -2.25rem;
+  transition: all 0.125s cubic-bezier(0.2, 0, 0.03, 1);
+}
+.orderbytext .order-by-text-wizard .styled-input {
+  float: left;
+  width: 33.3333%;
+  margin: 2rem 0 1rem;
+  position: relative;
   width: 100%;
 }
-.orderbytext .order-by-text-wizard textarea:focus + label {
-  display: none;
-}
-.orderbytext .order-by-text-wizard textarea:valid + label {
-  display: none;
-}
-.orderbytext .order-by-text-wizard .label-in-textarea {
-  position: relative;
-}
-.orderbytext .order-by-text-wizard .label-in-textarea > label {
+.orderbytext .order-by-text-wizard .styled-input label {
+  color: #999;
+  padding: 1rem;
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 0;
+  left: 0;
+  transition: all 0.25s cubic-bezier(0.2, 0, 0.03, 1);
+  pointer-events: none;
+}
+.orderbytext .order-by-text-wizard input,
+.orderbytext .order-by-text-wizard textarea {
+  padding: 1rem 1rem;
+  border: 0;
+  width: 100%;
+  font-size: 1rem;
+  background-color: white;
+  margin-bottom: 0;
+}
+.orderbytext .order-by-text-wizard input ~ span,
+.orderbytext .order-by-text-wizard textarea ~ span {
+  display: block;
+  width: 0;
+  height: 3px;
+  background: red;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transition: all 0.125s cubic-bezier(0.2, 0, 0.03, 1);
+}
+.orderbytext .order-by-text-wizard input:focus,
+.orderbytext .order-by-text-wizard textarea:focus {
+  outline: 0;
+}
+.orderbytext .order-by-text-wizard input:focus ~ span,
+.orderbytext .order-by-text-wizard textarea:focus ~ span {
+  width: 100%;
+  transition: all 0.125s cubic-bezier(0.2, 0, 0.03, 1);
+}
+.orderbytext .order-by-text-wizard textarea {
+  width: 100%;
+  min-height: 15em;
 }
