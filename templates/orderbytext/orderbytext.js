@@ -22,7 +22,6 @@ export async function createForm(block) {
   for (const fieldData of block.children) {
     const field = createField(fieldData);
   }
-  console.log(fields)
   const nextButton = createTag('button', {}, 'Next')
   block.append(nextButton);
   attachNextAction(nextButton);
