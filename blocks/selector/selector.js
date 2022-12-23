@@ -1,6 +1,7 @@
 import { createTag } from "../../scripts/scripts.js";
 import {
-  attachNextAction
+  attachNextAction,
+  fields
 } from '../../../templates/orderbytext/orderbytext.js'
 
 
@@ -9,7 +10,7 @@ export default function decorate(block) {
   const contentContainers = selectorSection.querySelectorAll('.default-content-wrapper');
   const itemsContainer = contentContainers[1];
   itemsContainer.classList.add('gallery')
-  const items = createTag('div', {class: 'gallery_scroller'});
+  const items = createTag('div', { class: 'gallery_scroller' });
   let item;
 
   const children = itemsContainer.childNodes;
@@ -20,10 +21,15 @@ export default function decorate(block) {
       if (item) {
         items.append(item);
       }
-      item = createTag('div');// Reset
-      console.log('creating a new item div')
+      item = createTag('div', {class: 'gallery_item'});// Reset
+      item.addEventListener('click', function () {
+        handleItemSelect(this)
+      })
     }
     item.append(itemContent.cloneNode(true));
+    const title = extractItemTitle(item);
+    if (title)
+      item.id = title;
   }
   items.append(item);
   itemsContainer.innerHTML = '';
@@ -31,4 +37,17 @@ export default function decorate(block) {
   const nextButton = createTag('button', {}, 'Next')
   itemsContainer.append(nextButton);
   attachNextAction(nextButton);
+}
+
+function handleItemSelect(item) {
+  const selected= item.parentNode.querySelector('.selected');
+  selected?.classList.remove('selected')
+  item.classList.add('selected')
+  const title = extractItemTitle(item)
+  fields['Product'] = title;
+}
+
+function extractItemTitle(item) {
+  const title = item.querySelector('h3');
+  return title?.textContent;
 }

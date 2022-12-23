@@ -5,7 +5,7 @@ const { default: scrollIntoView } = await import(
   '../../scripts/scroll-into-view-if-needed.js'
 )
 
-const fields = {};
+export const fields = {};
 
 export function attachNextAction(button) {
   const closest = button.closest('.section');
