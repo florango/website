@@ -1,11 +1,15 @@
 import { createTag } from "../../scripts/scripts.js";
+import {
+  attachNextAction
+} from '../../../templates/orderbytext/orderbytext.js'
+
 
 export default function decorate(block) {
   const selectorSection = block.closest('.selector-container');
   const contentContainers = selectorSection.querySelectorAll('.default-content-wrapper');
   const itemsContainer = contentContainers[1];
-  console.log('itemsContainer', itemsContainer)
-  const items = createTag('div');
+  itemsContainer.classList.add('gallery')
+  const items = createTag('div', {class: 'gallery_scroller'});
   let item;
 
   const children = itemsContainer.childNodes;
@@ -22,5 +26,9 @@ export default function decorate(block) {
     item.append(itemContent.cloneNode(true));
   }
   items.append(item);
-  console.log('items', items);
+  itemsContainer.innerHTML = '';
+  itemsContainer.append(items);
+  const nextButton = createTag('button', {}, 'Next')
+  itemsContainer.append(nextButton);
+  attachNextAction(nextButton);
 }

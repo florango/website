@@ -7,7 +7,7 @@ const { default: scrollIntoView } = await import(
 
 const fields = {};
 
-function attachNextAction(button) {
+export function attachNextAction(button) {
   const closest = button.closest('.section');
   button.addEventListener('click', () => {
     scrollIntoView(closest.nextElementSibling, {
