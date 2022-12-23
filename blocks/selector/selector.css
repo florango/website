@@ -34,7 +34,7 @@
   position: relative;
 }
 .orderbytext .order-by-text-wizard .gallery .gallery_scroller .selected {
-  border: 2px solid black;
+  background-color: lightgray;
 }
 .orderbytext .order-by-text-wizard .gallery .gallery_scroller img {
   border-radius: 10px;

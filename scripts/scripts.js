@@ -140,7 +140,6 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   decoratePhoneLinks(main);
-  decorateTextPage(main);
 }
 
 
@@ -227,9 +226,11 @@ if (params.get('performance')) {
 }
 
 function decoratePhoneLinks(elem) {
-  elem.querySelectorAll('a').forEach((a) => {
-    const offset = a.href.indexOf('sms:')
-    if (offset >= 0) a.href = a.href.substr(offset);
+  elem.querySelectorAll('a[href="#textus"]').forEach((a) => {
+    a.addEventListener('click', () => {
+      // TODO: Make this configurable
+      window.open('sms:+14242727091?&body=Can we talk about flowers?')
+    })
   });
 }
 
