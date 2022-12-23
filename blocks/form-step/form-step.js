@@ -5,6 +5,5 @@ import {
 
 
 export default function decorate(block) {
-  console.log('form step', block);
   createForm(block);
 }

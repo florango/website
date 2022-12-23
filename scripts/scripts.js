@@ -247,17 +247,13 @@ async function loadFonts() {
   //document.fonts.add(gellix);
 }
 
-export function createTag(name, attrs, events) {
+export function createTag(name, attrs, textContent) {
   const el = document.createElement(name);
   if (typeof attrs === 'object') {
     for (const [key, value] of Object.entries(attrs)) {
       el.setAttribute(key, value);
     }
   }
-  if (typeof events === 'object') {
-    for (const [key, value] of Object.entries(events)) {
-      el.addEventListener(key, value);
-    }
-  }
+  el.textContent = textContent;
   return el;
 }

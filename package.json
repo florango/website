@@ -39,6 +39,7 @@
     "stylelint-config-standard": "25.0.0"
   },
   "dependencies": {
-    "@adobe/helix-cli": "^14.17.3"
+    "@adobe/helix-cli": "^14.17.3",
+    "scroll-into-view-if-needed": "^3.0.3"
   }
 }
