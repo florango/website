@@ -1,10 +1,16 @@
 .orderbytext {
 
+  .default-content-wrapper {
+    padding: 5px;
+  }
+
   .order-by-text-wizard {
     .gallery {
       position: relative;
       max-width: 800px;
-      padding: 0 10;
+      // padding: 0 10;
+      padding-top: 0;
+      
 
       div.note {
         position: absolute;
@@ -33,7 +39,7 @@
         display: flex;
         align-items: center;
 
-        height: 500px;
+        // height: 500px;
 
         /* Enable Safari touch scrolling physics which is needed for scroll snap */
         -webkit-overflow-scrolling: touch;
@@ -41,7 +47,7 @@
         div {
           /* snap align center  */
           scroll-snap-align: center;
-          margin: 10px;
+          padding: 10px;
           position: relative;
         }
 
@@ -52,12 +58,24 @@
 
         img {
           border-radius: 10px;
+          object-fit: cover;
+          height: 200px;
         }
 
         div.colored_card {
           min-width: 75%;
           min-height: 95%;
           border-radius: 10px;
+        }
+
+        .gallery_item {
+          h3 {
+            font-size: 1rem;
+          }
+          :nth-child(3) {
+            padding: 0;
+            margin: 0;
+          }
         }
       }
     }

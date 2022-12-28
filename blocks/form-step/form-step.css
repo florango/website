@@ -9,7 +9,7 @@
 .orderbytext .order-by-text-wizard .styled-input {
   float: right;
   width: 33.3333%;
-  margin: 2rem 0 1rem;
+  margin: 1rem 0 1rem;
   position: relative;
   width: 100%;
   display: flex;
@@ -39,6 +39,6 @@
 }
 .orderbytext .order-by-text-wizard textarea {
   width: calc(90% - 2rem);
-  min-height: 15em;
+  min-height: 7em;
   margin: 0;
 }

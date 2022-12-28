@@ -299,6 +299,11 @@ main .section.highlight {
 
 .orderbytext {
 
+  h2 {
+    font-size: 1.5em;
+    line-height: 1em;
+  }
+
   .order-by-text-wizard {
     //position: relative;
     scroll-behavior: smooth;
@@ -306,7 +311,7 @@ main .section.highlight {
     scroll-snap-type: y mandatory;
 
     .section {
-      padding-top: 190px;
+      //padding-top: 190px;
       scroll-snap-align: center;
       height: 90vh;
     }

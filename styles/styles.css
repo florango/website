@@ -284,13 +284,16 @@ main .section.highlight {
   padding: 32px;
 }
 
+.orderbytext h2 {
+  font-size: 1.5em;
+  line-height: 1em;
+}
 .orderbytext .order-by-text-wizard {
   scroll-behavior: smooth;
   overflow: scroll;
   scroll-snap-type: y mandatory;
 }
 .orderbytext .order-by-text-wizard .section {
-  padding-top: 190px;
   scroll-snap-align: center;
   height: 90vh;
 }

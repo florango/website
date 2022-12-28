@@ -1,7 +1,10 @@
+.orderbytext .default-content-wrapper {
+  padding: 5px;
+}
 .orderbytext .order-by-text-wizard .gallery {
   position: relative;
   max-width: 800px;
-  padding: 0 10;
+  padding-top: 0;
 }
 .orderbytext .order-by-text-wizard .gallery div.note {
   position: absolute;
@@ -23,14 +26,13 @@
   overflow-y: hidden;
   display: flex;
   align-items: center;
-  height: 500px;
   /* Enable Safari touch scrolling physics which is needed for scroll snap */
   -webkit-overflow-scrolling: touch;
 }
 .orderbytext .order-by-text-wizard .gallery .gallery_scroller div {
   /* snap align center  */
   scroll-snap-align: center;
-  margin: 10px;
+  padding: 10px;
   position: relative;
 }
 .orderbytext .order-by-text-wizard .gallery .gallery_scroller .selected {
@@ -38,9 +40,18 @@
 }
 .orderbytext .order-by-text-wizard .gallery .gallery_scroller img {
   border-radius: 10px;
+  object-fit: cover;
+  height: 200px;
 }
 .orderbytext .order-by-text-wizard .gallery .gallery_scroller div.colored_card {
   min-width: 75%;
   min-height: 95%;
   border-radius: 10px;
+}
+.orderbytext .order-by-text-wizard .gallery .gallery_scroller .gallery_item h3 {
+  font-size: 1rem;
+}
+.orderbytext .order-by-text-wizard .gallery .gallery_scroller .gallery_item :nth-child(3) {
+  padding: 0;
+  margin: 0;
 }
