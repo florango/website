@@ -5,7 +5,7 @@ const { default: scrollIntoView } = await import(
   '../../scripts/scroll-into-view-if-needed.js'
 )
 
-export const fields = {};
+const fields = {};
 
 export function attachNextAction(button) {
   const closest = button.closest('.section');
@@ -67,7 +67,7 @@ function registerField(fieldName, inputElement, defaultValue) {
   inputElement.addEventListener('change', () => updateField(fieldName, inputElement.value, defaultValue));
 }
 
-function updateField(fieldName, fieldValue, defaultValue) {
+export function updateField(fieldName, fieldValue, defaultValue) {
   fields[fieldName] = fieldValue || defaultValue;
   const confirmContainer = document.querySelector('#Confirm');
   if (confirmContainer) {

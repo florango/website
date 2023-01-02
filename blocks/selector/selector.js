@@ -1,7 +1,7 @@
 import { createTag } from "../../scripts/scripts.js";
 import {
   attachNextAction,
-  fields
+  updateField,
 } from '../../../templates/orderbytext/orderbytext.js'
 
 
@@ -44,7 +44,7 @@ function handleItemSelect(item) {
   selected?.classList.remove('selected')
   item.classList.add('selected')
   const title = extractItemTitle(item)
-  fields['Product'] = title;
+  updateField('Product', title, 'Flowers')
 }
 
 function extractItemTitle(item) {
