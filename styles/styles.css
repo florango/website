@@ -31,6 +31,7 @@
   --heading-font-size-xs: 18px;
   /* nav height */
   --nav-height: 64px;
+  --footer-height: 28px;
 }
 
 @font-face {
@@ -62,6 +63,15 @@ body.appear {
 
 header {
   height: var(--nav-height);
+}
+
+main {
+  height: calc(100vh - var(--nav-height) - var(--footer-height));
+  overflow: auto;
+}
+
+footer {
+  height: var(--footer-height);
 }
 
 h1,
@@ -182,11 +192,6 @@ button.secondary {
   border: 2px solid currentcolor;
   color: var(--background-color);
   font-size: var(--body-font-size-l);
-}
-
-main {
-  height: 87vh;
-  overflow: auto;
 }
 
 main input {

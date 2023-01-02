@@ -1,10 +1,3 @@
-const isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-const isMac = (navigator.appVersion.indexOf('Mac') != -1);
-
-console.log(`isMobile: ${isMobile}`);
-console.log(`isMac: ${isMac}`);
-
-
 //------ Reactivity
 /**
  * The delimiter that describes where expressions are located.

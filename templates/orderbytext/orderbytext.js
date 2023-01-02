@@ -35,7 +35,7 @@ function createInput(fieldName, fieldType) {
 export function createField(field) {
   const fieldData = field.children[0].textContent.split(',')
   const fieldName = fieldData[0];
-  const defaultValue = fieldData[1] || '';
+  const defaultValue = fieldData[1] || ' ';
 
   const fieldType = field.children[1].textContent;
   const fieldDiv = createTag('div', { class: 'form-field styled-input' });

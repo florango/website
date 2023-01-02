@@ -16,7 +16,8 @@ function decorateStartButton(elem, messageContainer) {
   elem.querySelectorAll('a[href="#textconfirm"]').forEach((a) => {
     a.addEventListener('click', () => {
       // TODO: Make this configurable
-      window.open(`sms:+14242727091?&body=${messageContainer.textContent}`);
+      const saneMessage = messageContainer.textContent.replace(/\s+/g, ' ').trim();
+      window.open(`sms:+14242727091?&body=${saneMessage}`);
     })
   });
 }

@@ -225,11 +225,22 @@ if (params.get('performance')) {
   });
 }
 
+const isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+const isMac = (navigator.appVersion.indexOf('Mac') != -1);
+
+console.log(`isMobile: ${isMobile}`);
+console.log(`isMac: ${isMac}`);
+
+
 function decoratePhoneLinks(elem) {
   elem.querySelectorAll('a[href="#textus"]').forEach((a) => {
     a.addEventListener('click', () => {
       // TODO: Make this configurable
-      window.open('sms:+14242727091?&body=Can we talk about flowers?')
+      if (isMobile || isMac) {
+        window.open('sms:+14242727091?&body=Can we talk about flowers?');
+      } else {
+        window.open('mailto:hey@florango.com?subject=Can we talk about flowers?');
+      }
     })
   });
 }
