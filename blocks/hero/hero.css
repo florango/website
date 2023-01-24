@@ -5,6 +5,13 @@ main .hero-container .text-background > div > div {
   background-color: black;
   background-color: rgba(0, 0, 0, 0.5);
 }
+main .hero-container .text-background > div > div h1 {
+  font-size: var(--heading-font-size-xl);
+}
+main .hero-container .text-background > div > div p > .icon > svg {
+  height: 5em;
+  width: 5em;
+}
 
 main .hero-container > div {
   max-width: unset;

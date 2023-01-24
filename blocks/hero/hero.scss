@@ -12,6 +12,15 @@ main {
                     padding: 16px;
                     background-color: black;
                     background-color: rgba(0, 0, 0, .5);
+
+                    h1 {
+                        font-size: var(--heading-font-size-xl);
+                    }
+
+                    p >.icon >svg {
+                        height: 5em;
+                        width: 5em;
+                    }
                 }
             }
         }
