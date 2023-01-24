@@ -50,6 +50,7 @@ export default async function decorate(block) {
     }
 
     // hamburger for mobile
+    /*
     const hamburger = document.createElement('div');
     hamburger.classList.add('nav-hamburger');
     hamburger.innerHTML = '<div class="nav-hamburger-icon"></div>';
@@ -60,6 +61,7 @@ export default async function decorate(block) {
     });
     nav.prepend(hamburger);
     nav.setAttribute('aria-expanded', 'false');
+    */
     decorateIcons(nav);
     block.append(nav);
   }

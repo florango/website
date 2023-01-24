@@ -37,6 +37,7 @@ export default function decorate(block) {
   const nextButton = createTag('button', {}, 'Next')
   itemsContainer.append(nextButton);
   attachNextAction(nextButton);
+  updateField('Product', 'some Flowers');
 }
 
 function handleItemSelect(item) {
@@ -44,7 +45,7 @@ function handleItemSelect(item) {
   selected?.classList.remove('selected')
   item.classList.add('selected')
   const title = extractItemTitle(item)
-  updateField('Product', title, 'Flowers')
+  updateField('Product', `the ${title}`, 'some Flowers');
 }
 
 function extractItemTitle(item) {

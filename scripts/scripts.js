@@ -43,6 +43,12 @@ function decorateButtons(element) {
           twoup.classList.add('button-container');
         }
       }
+      const goHash = '#go:';
+      if(a.href.includes(goHash)) {
+        const link = a.href.substring(a.href.indexOf(goHash) + goHash.length);
+        console.log(link)
+        a.href = link;
+      }
     }
   });
 }
@@ -102,7 +108,7 @@ function preDecorateEmbed(main) {
  */
 async function buildAutoBlocks(main) {
   try {
-    buildHeroBlock(main);
+    //buildHeroBlock(main);
     const template = toClassName(getMetadata('template'));
     const templates = ['orderbytext'];
     if (templates.includes(template)) {

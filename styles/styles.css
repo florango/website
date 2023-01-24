@@ -66,7 +66,7 @@ header {
 }
 
 main {
-  height: calc(100vh - var(--nav-height) - var(--footer-height));
+  height: calc(100vh - var(--footer-height));
   overflow: auto;
 }
 
