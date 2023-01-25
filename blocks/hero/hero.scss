@@ -5,13 +5,13 @@ main {
         .hero {}
 
 
-        .text-background {
+        .black-text-background {
             >div {
                 >div {
-                    border: 1px solid green;
                     padding: 16px;
                     background-color: black;
                     background-color: rgba(0, 0, 0, .5);
+                    border-radius: 10px;
 
                     h1 {
                         font-size: var(--heading-font-size-xl);
