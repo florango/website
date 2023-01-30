@@ -153,6 +153,7 @@ export function decorateMain(main) {
  * loads everything needed to get to LCP.
  */
 async function loadEager(doc) {
+  console.log('eager')
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
@@ -188,10 +189,11 @@ export function addFavIcon(href) {
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
+  console.log('lazy');
   const main = doc.querySelector('main');
   await loadBlocks(main);
   decorateIcons(main);
-
+  await loadFonts();
   const { hash } = window.location;
   const element = hash ? main.querySelector(hash) : false;
   if (hash && element) element.scrollIntoView();
@@ -260,9 +262,13 @@ async function decorateTextPage($main) {
 }
 
 async function loadFonts() {
-  //const gellix = new FontFace('Gellix', 'url("/fonts/gellix-regular_r.woff2")');
-  //await gellix.load();
-  //document.fonts.add(gellix);
+  console.log(123)
+  const josefinSans = new FontFace('Josefin Sans', 'url("/fonts/JosefinSans-VariableFont_wght.ttf")');
+  await josefinSans.load();
+  const hammersmithOne = new FontFace('Hammersmith One', 'url("/fonts/HammersmithOne-Regular.ttf")');
+  await hammersmithOne.load();
+  document.fonts.add(josefinSans);
+  document.fonts.add(hammersmithOne);
 }
 
 export function createTag(name, attrs, textContent) {
