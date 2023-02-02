@@ -46,7 +46,6 @@ function decorateButtons(element) {
       const goHash = '#go:';
       if (a.href.includes(goHash)) {
         const link = a.href.substring(a.href.indexOf(goHash) + goHash.length);
-        console.log(link)
         a.href = link;
       }
     }
@@ -153,7 +152,6 @@ export function decorateMain(main) {
  * loads everything needed to get to LCP.
  */
 async function loadEager(doc) {
-  console.log('eager')
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
@@ -189,7 +187,6 @@ export function addFavIcon(href) {
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
-  console.log('lazy');
   const main = doc.querySelector('main');
   await loadBlocks(main);
   decorateIcons(main);
@@ -211,7 +208,6 @@ async function loadLazy(doc) {
 }
 
 function addGA() {
-  console.log('adding GA stuff...');
   const script = document.createElement('script');
   script.src = 'https://www.googletagmanager.com/gtag/js?id=G-P34X08NZ9R';
   document.head.appendChild(script);
@@ -250,10 +246,6 @@ if (params.get('performance')) {
 const isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 const isMac = (navigator.appVersion.indexOf('Mac') != -1);
 
-console.log(`isMobile: ${isMobile}`);
-console.log(`isMac: ${isMac}`);
-
-
 function decoratePhoneLinks(elem) {
   elem.querySelectorAll('a[href="#textus"]').forEach((a) => {
     a.addEventListener('click', () => {
@@ -271,12 +263,10 @@ async function decorateTextPage($main) {
   if (window.location.pathname.includes('orderbytext')) {
     $main.className = 'order-by-text-wizard';
     const $sections = $main.querySelectorAll('.section');
-    console.log('sections', $sections);
   }
 }
 
 async function loadFonts() {
-  console.log(123)
   const josefinSans = new FontFace('Josefin Sans', 'url("/fonts/JosefinSans-VariableFont_wght.ttf")');
   await josefinSans.load();
   const hammersmithOne = new FontFace('Hammersmith One', 'url("/fonts/HammersmithOne-Regular.ttf")');

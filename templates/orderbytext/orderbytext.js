@@ -68,11 +68,9 @@ function registerField(fieldName, inputElement, defaultValue) {
 }
 
 export function updateField(fieldName, fieldValue, defaultValue) {
-  console.log('fields', fields);
   fields[fieldName] = fieldValue || defaultValue;
   const confirmContainer = document.querySelector('#Confirm');
   if (confirmContainer) {
-    console.log(confirmContainer)
     const messageTemplate = confirmContainer.getAttribute('template');
     updateMessage(confirmContainer, messageTemplate, fields)
   }
