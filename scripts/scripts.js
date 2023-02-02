@@ -203,18 +203,6 @@ async function loadLazy(doc) {
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
-
-  addGA();
-}
-
-function addGA() {
-  const script = document.createElement('script');
-  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-P34X08NZ9R';
-  document.head.appendChild(script);
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-P34X08NZ9R');
 }
 
 /**
@@ -223,7 +211,7 @@ function addGA() {
  */
 function loadDelayed() {
   // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 3000);
+  window.setTimeout(() => import('./delayed.js'), 1500);
   // load anything that can be postponed to the latest here
 }
 

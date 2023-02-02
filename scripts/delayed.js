@@ -19,11 +19,11 @@ function loadScript(url, callback, type) {
   return $script;
 }
 
-// loadScript('https://www.googletagmanager.com/gtag/js?id=UA-167069650-1', () => {
-//     window.dataLayer = window.dataLayer || [];
-//     function gtag(){dataLayer.push(arguments);}
-//     gtag('js', new Date());
-//     gtag('config', 'UA-167069650-1');
-// }, 'text/javascript');
+loadScript('https://www.googletagmanager.com/gtag/js?id=G-P34X08NZ9R', () => {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-P34X08NZ9R');
+}, 'text/javascript');
 
 
