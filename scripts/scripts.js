@@ -44,7 +44,7 @@ function decorateButtons(element) {
         }
       }
       const goHash = '#go:';
-      if(a.href.includes(goHash)) {
+      if (a.href.includes(goHash)) {
         const link = a.href.substring(a.href.indexOf(goHash) + goHash.length);
         console.log(link)
         a.href = link;
@@ -201,10 +201,24 @@ async function loadLazy(doc) {
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
 
+
   addFavIcon(`${window.hlx.codeBasePath}/icons/favicon.ico`);
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
+
+  addGA();
+}
+
+function addGA() {
+  console.log('adding GA stuff...');
+  const script = document.createElement('script');
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=G-P34X08NZ9R';
+  document.head.appendChild(script);
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-P34X08NZ9R');
 }
 
 /**
