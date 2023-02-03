@@ -311,8 +311,12 @@ main .section.highlight {
 .orderbytext {
 
   h2 {
-    font-size: 1.5em;
+    font-size: var(--heading-font-size-l);
     line-height: 1em;
+  }
+
+  p {
+    font-size: var(--body-font-size-s);
   }
 
   .order-by-text-wizard {
