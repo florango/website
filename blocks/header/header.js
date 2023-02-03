@@ -30,6 +30,7 @@ export default async function decorate(block) {
     const nav = document.createElement('nav');
     nav.innerHTML = html;
     decorateIcons(nav);
+    nav.querySelector('img').setAttribute('alt', 'Florango');
 
     const classes = ['brand', 'sections', 'tools'];
     classes.forEach((e, j) => {

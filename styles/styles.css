@@ -72,6 +72,7 @@ main {
 
 footer {
   height: var(--footer-height);
+  color: var(--light-tan);
 }
 
 h1,
