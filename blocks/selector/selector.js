@@ -19,19 +19,20 @@ export default function decorate(block) {
     const picture = itemContent.querySelector('picture');
     if (picture) { // We're at the begining of an item
       if (item) {
-        items.append(item);
+        items.append(extractAltText(item));
       }
-      item = createTag('div', {class: 'gallery_item'});// Reset
+      item = createTag('div', { class: 'gallery_item' });// Reset
       item.addEventListener('click', function () {
         handleItemSelect(this)
       })
     }
     item.append(itemContent.cloneNode(true));
     const title = extractItemTitle(item);
-    if (title)
+    if (title) {
       item.id = title;
-  }
-  items.append(item);
+    }
+  }  
+  items.append(extractAltText(item));
   itemsContainer.innerHTML = '';
   itemsContainer.append(items);
   const nextButton = createTag('button', {}, 'Next')
@@ -41,7 +42,7 @@ export default function decorate(block) {
 }
 
 function handleItemSelect(item) {
-  const selected= item.parentNode.querySelector('.selected');
+  const selected = item.parentNode.querySelector('.selected');
   selected?.classList.remove('selected')
   item.classList.add('selected')
   const title = extractItemTitle(item)
@@ -51,4 +52,9 @@ function handleItemSelect(item) {
 function extractItemTitle(item) {
   const title = item.querySelector('h3');
   return title?.textContent;
+}
+
+function extractAltText(item) {
+  item?.querySelector('img')?.setAttribute('alt', item?.id);
+  return item;
 }
