@@ -1,3 +1,6 @@
+.orderbytext h2 {
+  margin-top: 10px;
+}
 .orderbytext .order-by-text-wizard input:valid ~ label,
 .orderbytext .order-by-text-wizard textarea:valid ~ label, .orderbytext .order-by-text-wizard input:focus ~ label,
 .orderbytext .order-by-text-wizard textarea:focus ~ label {
