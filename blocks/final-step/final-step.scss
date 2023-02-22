@@ -4,5 +4,18 @@
     border: 1px solid #879988;
     margin: 16px;
     border-radius: 10px;
+    font-size: var(--body-font-size-s);
   }
+
+  h2 {
+    margin-top: 60px;
+  }
+
+  .default-content-wrapper {
+    padding-top: 15px;
+  }
+}
+
+.footer-wrapper {
+  display: none;
 }

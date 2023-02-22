@@ -3,4 +3,15 @@
   border: 1px solid #879988;
   margin: 16px;
   border-radius: 10px;
+  font-size: var(--body-font-size-s);
+}
+.final-step-container h2 {
+  margin-top: 60px;
+}
+.final-step-container .default-content-wrapper {
+  padding-top: 15px;
+}
+
+.footer-wrapper {
+  display: none;
 }

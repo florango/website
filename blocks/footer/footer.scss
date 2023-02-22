@@ -1,16 +1,21 @@
-footer {
-  padding: 2rem;
-  //background-color: var(--overlay-background-color);
-  color: var(--light-tan);
-  background-color: var(--dark-blue);
-  font-size: var(--body-font-size-s);
+.orderbytext {
 
-  .footer {
-    max-width: 1200px;
-    margin: auto;
-  }
+  .order-by-text-wizard {
+    footer {
+      padding: 2rem;
+      //background-color: var(--overlay-background-color);
+      color: var(--light-tan);
+      background-color: var(--dark-blue);
+      font-size: var(--body-font-size-s);
 
-  .footer p {
-    margin: 0;
+      .footer {
+        max-width: 1200px;
+        margin: auto;
+      }
+
+      .footer p {
+        margin: 0;
+      }
+    }
   }
 }

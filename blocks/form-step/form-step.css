@@ -1,5 +1,6 @@
-.orderbytext h2 {
-  margin-top: 10px;
+.orderbytext .order-by-text-wizard .default-content-wrapper {
+  padding: 15px;
+  padding-top: 40px;
 }
 .orderbytext .order-by-text-wizard input:valid ~ label,
 .orderbytext .order-by-text-wizard textarea:valid ~ label, .orderbytext .order-by-text-wizard input:focus ~ label,
@@ -27,6 +28,9 @@
   transition: all 0.25s cubic-bezier(0.2, 0, 0.03, 1);
   pointer-events: none;
 }
+.orderbytext .order-by-text-wizard .button-container {
+  margin: 5px;
+}
 .orderbytext .order-by-text-wizard input,
 .orderbytext .order-by-text-wizard textarea {
   width: 90%;
@@ -42,6 +46,6 @@
 }
 .orderbytext .order-by-text-wizard textarea {
   width: calc(90% - 2rem);
-  min-height: 7em;
+  min-height: 4em;
   margin: 0;
 }

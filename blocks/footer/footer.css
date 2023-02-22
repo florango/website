@@ -1,13 +1,13 @@
-footer {
+.orderbytext .order-by-text-wizard footer {
   padding: 2rem;
   color: var(--light-tan);
   background-color: var(--dark-blue);
   font-size: var(--body-font-size-s);
 }
-footer .footer {
+.orderbytext .order-by-text-wizard footer .footer {
   max-width: 1200px;
   margin: auto;
 }
-footer .footer p {
+.orderbytext .order-by-text-wizard footer .footer p {
   margin: 0;
 }

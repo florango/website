@@ -1,10 +1,11 @@
 .orderbytext {
 
-  h2 {
-    margin-top: 10px;
-  }
-
   .order-by-text-wizard {
+
+    .default-content-wrapper {
+      padding: 15px;
+      padding-top: 40px;
+    }
 
     // Effect Styles Start Here
 
@@ -36,6 +37,10 @@
       }
     }
 
+    .button-container {
+      margin: 5px;
+    }
+
     input,
     textarea {
       width: 90%;
@@ -44,8 +49,6 @@
       font-size: 1rem;
       background-color: white;
       margin-bottom: 0;
-      
-
 
       &:focus {
         // Trigger the effects
@@ -55,8 +58,6 @@
           // Move Label
           @extend %label-movement;
         }
-
-
       }
 
       &:valid~label
@@ -71,7 +72,7 @@
     textarea {
       // Mods needed for multiline inputs
       width: calc(90% - 2rem);
-      min-height: 7em;
+      min-height: 4em;
       margin: 0;
     }
   }
