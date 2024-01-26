@@ -3,8 +3,9 @@
     flex-direction: column;
 }
 
-.columns > div > div {
-    padding: 32px;
+.columns > div > div :is(h1, h2, p) {
+    margin-left: 32px;
+    margin-right: 32px;
 }
 
 .columns .columns-image {
@@ -14,7 +15,7 @@
 }
 
 .columns .columns-image picture {
-    position: absolute;
+    
     top: 0;
     left: 0;
     right: 0;
@@ -23,7 +24,7 @@
 }
 
 .columns .columns-image img {
-    height: 100%;
+    display: block;
     width: 100%;
     object-fit: cover;
 }
@@ -33,6 +34,7 @@
         display: flex;
         align-items: stretch;
         flex-direction: unset;
+        align-items: center;
     }
 
     .columns > div > div {
