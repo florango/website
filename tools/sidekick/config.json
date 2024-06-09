@@ -1,6 +1,6 @@
 {
     "project": "Florango",
-    "host": "www.florango.com"
+    "host": "www.florango.com",
     "previewHost": "main--website--florango.aem.page",
     "liveHost": "main--website--florango.aem.live"
   }
